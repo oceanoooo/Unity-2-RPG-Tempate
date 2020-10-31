@@ -25,7 +25,7 @@ public class MainMenuManager : MonoBehaviour
     public void ContinueGame()
     {
         Debug.Log("Continuing Game");
-        if (false) // Replace with Save finding code
+        if (SaveSystem.SaveFound()) // Replace with Save finding code
         {
             StartGame();
             GameDatabase.GetComponent<SaveManager>().LoadGame();
@@ -53,23 +53,17 @@ public class MainMenuManager : MonoBehaviour
 
     void MakeDatabase()
     {
-        if (GameDatabase != null)
-        {
-            return;
-        }
-        // Either find and assign if it exists ...
-        if (GameObject.Find("GameData") != null)
+        if(GameDatabase != null || GameObject.Find("GameData"))
         {
             GameDatabase = GameObject.Find("GameData");
+            return;
         }
-        // ... or create a new one if it doesn't
-        else
-        {
-            GameDatabase = new GameObject();
-            GameDatabase.name = "GameData";
-            GameDatabase.AddComponent<SaveManager>();
-        }
+
+        GameDatabase = new GameObject();
+        GameDatabase.name = "GameData";
+        GameDatabase.AddComponent<SaveManager>();
     }
+
 
     // PlayerPref helper functions
     public void SetDifficulty(int multiplier)
