@@ -45,6 +45,7 @@ public class PlayerManager : MonoBehaviour
         for (int i = 0; i < inventory.Count; i++)
         {
             if(lt.lootItems[inventory[i].itemIndex].itemType == iType)
+
             {
                 amountMade += lt.lootItems[inventory[i].itemIndex].price * inventory[i].itemAmount;
                 inventory[i] = new inventorySlotProxy { itemIndex = i, itemAmount = 0 };
@@ -54,8 +55,40 @@ public class PlayerManager : MonoBehaviour
         gold += amountMade;
         UpdateUI();
         return amountMade;
-    }
 
+    }
+    public bool LoseItems(Item.ItemType iType)
+    {
+        int LostItem = Random.Range(0,2);
+        if(LostItem == 0)
+        { 
+            
+           
+            if(gold >= 100) {
+                gold -= 100;
+                    
+                UpdateUI();
+                return true;
+            }
+            else 
+            { 
+                return false;
+            }
+        }
+        else 
+        {
+            int index = Random.Range(0,8);
+            inventory[lt.ToSimpleInventory(index)].itemAmount -= 1;
+            UpdateUI();
+            return true;
+        }
+    
+
+
+
+
+
+    }
     public void AddToInventory(List<int> values)
     {
         
